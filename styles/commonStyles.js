@@ -9,69 +9,29 @@ export const commonStyles = StyleSheet.create({
   text: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#ffffff',
-    fontFamily: 'Helvetica',
+    color: '#333',
+    marginBottom: 5,
   },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    alignSelf: 'center',
-    marginTop: 10,
-    fontFamily: 'Helvetica',
-  },
-  card: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#4C3D99', // Darker purple for the card background
-    borderRadius: 10,
-    padding: 15,
-    marginVertical: 10,
-  },
-  cardText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'Helvetica',
-  },
-  cardDate: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '400',
-  },
-  cardValue: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  icon: {
-    color: '#FFD700', // Yellow color for the warning icon
-    marginRight: 10,
+  input: {
+    borderWidth: 1,
+    borderColor: '#4C3D99',
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    color: '#333',
   },
   buttonText: {
     color: '#007BFF',
     fontSize: 16,
-    textAlign: 'right',
-    marginRight: 20,
     fontWeight: 'bold',
   },
   tabBar: {
-    backgroundColor: '#3A2A80', // Purple for the bottom tab background
+    backgroundColor: '#3A2A80',
     borderTopWidth: 0,
     elevation: 0,
   },
-
-  // New color props to be used in navigationHelper.js
-  headerBackgroundColor: '#3A2A80', // Purple for header background
-  headerTintColor: '#FFFFFF', // White for header text
-  tabBarActiveTintColor: '#FFD700', // Yellow for active tab icon
-  tabBarInactiveTintColor: '#FFFFFF', // White for inactive tab icon
-
-  tabBarLabel: {
-    fontSize: 10,
-    fontFamily: 'Helvetica',
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-  },
+  headerBackgroundColor: '#3A2A80',
+  headerTintColor: '#FFFFFF',
+  tabBarActiveTintColor: '#FFD700',
+  tabBarInactiveTintColor: '#FFFFFF',
 });
