@@ -1,16 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { commonStyles } from '../styles/commonStyles';
 import { DataContext } from '../context/DataContext'; // Import the context
+import DatePicker from '../components/DatePicker'; // Import the reusable DatePicker component
 
 const AddActivityScreen = ({ navigation }) => {
   const { addActivity } = useContext(DataContext); // Access the addActivity function from context
   const [activity, setActivity] = useState(null);
   const [duration, setDuration] = useState('');
   const [date, setDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
@@ -24,15 +23,42 @@ const AddActivityScreen = ({ navigation }) => {
   ]);
 
   const validateAndSave = () => {
-    if (!activity || !duration || isNaN(duration) || parseInt(duration) <= 0) {
-      Alert.alert('Invalid Input', 'Please enter valid details for all fields.');
+    const parsedDuration = parseInt(duration);
+
+    // Validate activity type
+    if (!activity) {
+      Alert.alert('Invalid Input', 'Please select an activity.');
+      return;
+    }
+
+    // Validate that duration is not empty
+    if (!duration) {
+      Alert.alert('Invalid Input', 'Duration cannot be empty.');
+      return;
+    }
+
+    // Validate that duration is a number
+    if (isNaN(parsedDuration)) {
+      Alert.alert('Invalid Input', 'Duration must be a number.');
+      return;
+    }
+
+    // Validate that duration is a positive number
+    if (parsedDuration <= 0) {
+      Alert.alert('Invalid Input', 'Duration must be a positive number.');
+      return;
+    }
+
+    // Validate that duration is more than 60 minutes
+    if (parsedDuration <= 60) {
+      Alert.alert('Invalid Input', 'Duration must be more than 60 minutes.');
       return;
     }
 
     // Create a new activity object
     const newActivity = {
       activity,
-      duration: parseInt(duration),
+      duration: parsedDuration,
       date: date.toDateString(),
     };
 
@@ -67,25 +93,7 @@ const AddActivityScreen = ({ navigation }) => {
       />
 
       <Text style={commonStyles.text}>Date *</Text>
-      <TouchableOpacity
-        style={[commonStyles.input, { marginBottom: 20 }]}
-        onPress={() => setShowDatePicker(true)}
-      >
-        <Text>{date.toDateString()}</Text>
-      </TouchableOpacity>
-
-      {showDatePicker && (
-        <DateTimePicker
-          value={date}
-          mode="date"
-          display="inline"
-          onChange={(event, selectedDate) => {
-            const currentDate = selectedDate || date;
-            setShowDatePicker(false);
-            setDate(currentDate);
-          }}
-        />
-      )}
+      <DatePicker selectedDate={date} setSelectedDate={setDate} />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
