@@ -1,16 +1,11 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { MainTabs } from './components/navigationHelper';
-
-const Stack = createNativeStackNavigator();
+import { MainTabs } from './components/navigationHelper'; // Import the tab navigation directly
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={MainTabs} />
-      </Stack.Navigator>
+      <MainTabs />
     </NavigationContainer>
   );
 }

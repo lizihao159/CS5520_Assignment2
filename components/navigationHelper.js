@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import ActivitiesScreen from '../screens/ActivitiesScreen';
 import DietScreen from '../screens/DietScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import { commonStyles } from '../styles/commonStyles'; // Import the common styles
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +23,18 @@ export function MainTabs() {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+
+        // Use the exact colors from commonStyles
+        tabBarActiveTintColor: commonStyles.tabBarActiveTintColor,
+        tabBarInactiveTintColor: commonStyles.tabBarInactiveTintColor,
+        tabBarStyle: commonStyles.tabBar,
+
+        // Set header style and show the header title
+        headerStyle: {
+          backgroundColor: commonStyles.headerBackgroundColor, // Purple color
+        },
+        headerTintColor: commonStyles.headerTintColor, // White text in the header
+        headerTitleAlign: 'center', // Center align the header title
       })}
     >
       <Tab.Screen name="Activities" component={ActivitiesScreen} />
