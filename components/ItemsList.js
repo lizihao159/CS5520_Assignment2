@@ -3,15 +3,11 @@ import { View, Text, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for the warning icon
 import { commonStyles } from '../styles/commonStyles';
 
-// Function to check if the activity date is today
-const isToday = (date) => {
-  const today = new Date();
-  const activityDate = new Date(date);
-
+// Function to check if the activity should display a warning
+const shouldDisplayWarning = (activityType, duration) => {
   return (
-    activityDate.getDate() === today.getDate() &&
-    activityDate.getMonth() === today.getMonth() &&
-    activityDate.getFullYear() === today.getFullYear()
+    (activityType === 'running' || activityType === 'weights') &&
+    duration > 60
   );
 };
 
@@ -23,8 +19,8 @@ const ItemsList = ({ entries, type }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={commonStyles.card}>
-            {/* Display warning icon if the activity is planned for today */}
-            {isToday(item.date) && (
+            {/* Display warning icon if the activity type is Running or Weights and duration is more than 60 minutes */}
+            {shouldDisplayWarning(item.activity, item.duration) && (
               <Ionicons name="warning" size={20} style={commonStyles.icon} />
             )}
             <Text style={commonStyles.cardText}>

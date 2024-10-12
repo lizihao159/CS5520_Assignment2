@@ -49,12 +49,6 @@ const AddActivityScreen = ({ navigation }) => {
       return;
     }
 
-    // Validate that duration is more than 60 minutes
-    if (parsedDuration <= 60) {
-      Alert.alert('Invalid Input', 'Duration must be more than 60 minutes.');
-      return;
-    }
-
     // Create a new activity object
     const newActivity = {
       activity,
