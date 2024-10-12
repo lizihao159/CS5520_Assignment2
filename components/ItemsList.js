@@ -1,7 +1,19 @@
 import React from 'react';
 import { View, Text, FlatList } from 'react-native';
+import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for the warning icon
 import { commonStyles } from '../styles/commonStyles';
-import { Ionicons } from '@expo/vector-icons';
+
+// Function to check if the activity date is today
+const isToday = (date) => {
+  const today = new Date();
+  const activityDate = new Date(date);
+
+  return (
+    activityDate.getDate() === today.getDate() &&
+    activityDate.getMonth() === today.getMonth() &&
+    activityDate.getFullYear() === today.getFullYear()
+  );
+};
 
 const ItemsList = ({ entries, type }) => {
   return (
@@ -11,8 +23,8 @@ const ItemsList = ({ entries, type }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={commonStyles.card}>
-            {/* Display icon if the item is a special case */}
-            {type === 'diet' && item.calories > 800 && (
+            {/* Display warning icon if the activity is planned for today */}
+            {isToday(item.date) && (
               <Ionicons name="warning" size={20} style={commonStyles.icon} />
             )}
             <Text style={commonStyles.cardText}>
