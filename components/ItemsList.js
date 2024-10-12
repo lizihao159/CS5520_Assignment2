@@ -21,6 +21,11 @@ const ItemsList = ({ entries, type }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={commonStyles.card}>
+            {/* Display description for diet or activity name for exercise */}
+            <Text style={commonStyles.cardText}>
+              {type === 'exercise' ? item.activity : item.description}
+            </Text>
+
             {/* Display warning icon based on type (exercise or diet) */}
             {type === 'exercise' && shouldDisplayActivityWarning(item.activity, item.duration) && (
               <Ionicons name="warning" size={20} style={commonStyles.icon} />
@@ -28,10 +33,8 @@ const ItemsList = ({ entries, type }) => {
             {type === 'diet' && shouldDisplayDietWarning(item.calories) && (
               <Ionicons name="warning" size={20} style={commonStyles.icon} />
             )}
-            {/* Display description for diet or activity name for exercise */}
-            <Text style={commonStyles.cardText}>
-              {type === 'exercise' ? item.activity : item.description}
-            </Text>
+
+            {/* Date and value display */}
             <Text style={commonStyles.cardDate}>{item.date}</Text>
             <Text style={commonStyles.cardValue}>
               {type === 'exercise' ? `${item.duration} min` : `${item.calories} cal`}

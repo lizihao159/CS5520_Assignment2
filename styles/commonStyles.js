@@ -3,14 +3,14 @@ import { StyleSheet } from 'react-native';
 export const commonStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D6D6E0', // light purple background
     padding: 20,
+    // backgroundColor removed to allow dynamic color from ThemeContext
   },
   text: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
     marginBottom: 5,
+    // color removed to allow dynamic color from ThemeContext
   },
   card: {
     flexDirection: 'row',

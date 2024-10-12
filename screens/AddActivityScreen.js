@@ -3,10 +3,12 @@ import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { commonStyles } from '../styles/commonStyles';
 import { DataContext } from '../context/DataContext'; // Import the context
+import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext
 import DatePicker from '../components/DatePicker'; // Import the reusable DatePicker component
 
 const AddActivityScreen = ({ navigation }) => {
   const { addActivity } = useContext(DataContext); // Access the addActivity function from context
+  const { theme } = useContext(ThemeContext); // Access the current theme
   const [activity, setActivity] = useState(null);
   const [duration, setDuration] = useState('');
   const [date, setDate] = useState(new Date());
@@ -25,47 +27,39 @@ const AddActivityScreen = ({ navigation }) => {
   const validateAndSave = () => {
     const parsedDuration = parseInt(duration);
 
-    // Validate activity type
     if (!activity) {
       Alert.alert('Invalid Input', 'Please select an activity.');
       return;
     }
 
-    // Validate that duration is not empty
     if (!duration) {
       Alert.alert('Invalid Input', 'Duration cannot be empty.');
       return;
     }
 
-    // Validate that duration is a number
     if (isNaN(parsedDuration)) {
       Alert.alert('Invalid Input', 'Duration must be a number.');
       return;
     }
 
-    // Validate that duration is a positive number
     if (parsedDuration <= 0) {
       Alert.alert('Invalid Input', 'Duration must be a positive number.');
       return;
     }
 
-    // Create a new activity object
     const newActivity = {
       activity,
       duration: parsedDuration,
       date: date.toDateString(),
     };
 
-    // Add the activity to the context
     addActivity(newActivity);
-
-    // Navigate back to the previous screen
     navigation.goBack();
   };
 
   return (
-    <View style={commonStyles.container}>
-      <Text style={commonStyles.text}>Activity *</Text>
+    <View style={[commonStyles.container, { backgroundColor: theme.backgroundColor }]}>
+      <Text style={[commonStyles.text, { color: theme.textColor }]}>Activity *</Text>
       <DropDownPicker
         open={open}
         value={activity}
@@ -77,25 +71,25 @@ const AddActivityScreen = ({ navigation }) => {
         style={{ marginBottom: 20 }}
       />
 
-      <Text style={commonStyles.text}>Duration (min) *</Text>
+      <Text style={[commonStyles.text, { color: theme.textColor }]}>Duration (min) *</Text>
       <TextInput
-        style={[commonStyles.input, { marginBottom: 20 }]}
+        style={[commonStyles.input, { backgroundColor: '#FFFFFF', color: theme.textColor, marginBottom: 20 }]}
         placeholder="Enter Duration"
         keyboardType="numeric"
         value={duration}
         onChangeText={setDuration}
       />
 
-      <Text style={commonStyles.text}>Date *</Text>
+      <Text style={[commonStyles.text, { color: theme.textColor }]}>Date *</Text>
       <DatePicker selectedDate={date} setSelectedDate={setDate} />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={commonStyles.buttonText}>Cancel</Text>
+          <Text style={[commonStyles.buttonText, { color: theme.textColor }]}>Cancel</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={validateAndSave}>
-          <Text style={commonStyles.buttonText}>Save</Text>
+          <Text style={[commonStyles.buttonText, { color: theme.textColor }]}>Save</Text>
         </TouchableOpacity>
       </View>
     </View>
