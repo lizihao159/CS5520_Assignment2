@@ -22,11 +22,12 @@ function ActivitiesStack({ navigation }) {
         headerTitleAlign: 'center',
       }}
     >
+      {/* Use a different name for the Stack.Screen but keep "Activities" in title */}
       <Stack.Screen
-        name="Activities"
+        name="activitiesStack"  // Use a unique name here
         component={ActivitiesScreen}
         options={{
-          title: 'Activities',
+          title: 'Activities', // The header title to display
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('AddActivity')}
@@ -55,11 +56,12 @@ function DietStack({ navigation }) {
         headerTitleAlign: 'center',
       }}
     >
+      {/* Use a different name for the Stack.Screen but keep "Diet" in title */}
       <Stack.Screen
-        name="Diet"
+        name="dietStack"  // Use a unique name here
         component={DietScreen}
         options={{
-          title: 'Diet',
+          title: 'Diet', // The header title to display
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('AddDietEntry')}
@@ -85,9 +87,9 @@ export function MainTabs() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === 'Activities') {
+          if (route.name === 'activitiesTab') {
             iconName = focused ? 'walk' : 'walk-outline';
-          } else if (route.name === 'Diet') {
+          } else if (route.name === 'dietTab') {
             iconName = focused ? 'fast-food' : 'fast-food-outline';
           } else if (route.name === 'Settings') {
             iconName = focused ? 'settings' : 'settings-outline';
@@ -99,19 +101,17 @@ export function MainTabs() {
         tabBarStyle: commonStyles.tabBar,
       })}
     >
-      {/* Activities stack handles the header separately */}
+      {/* Rename tab screen to avoid conflicts */}
       <Tab.Screen
-        name="Activities"
+        name="activitiesTab"  // Use a unique name for the tab screen
         component={ActivitiesStack}
-        options={{ headerShown: false }} // Disable header at tab level; handled by stack
+        options={{ headerShown: false, title: 'Activities' }} // This will be the tab title
       />
-      {/* Diet stack with consistent header styling */}
       <Tab.Screen
-        name="Diet"
-        component={DietStack} // Use the new DietStack for navigation
-        options={{ headerShown: false }} // Disable header at tab level; handled by stack
+        name="dietTab"  // Use a unique name for the tab screen
+        component={DietStack}
+        options={{ headerShown: false, title: 'Diet' }} // This will be the tab title
       />
-      {/* Settings with header styling */}
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}
