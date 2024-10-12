@@ -7,6 +7,7 @@ import ActivitiesScreen from '../screens/ActivitiesScreen';
 import DietScreen from '../screens/DietScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import AddActivityScreen from '../screens/AddActivityScreen';
+import AddDietEntryScreen from '../screens/AddDietEntryScreen'; // Import AddDietEntryScreen
 import { commonStyles } from '../styles/commonStyles';
 
 const Tab = createBottomTabNavigator();
@@ -45,6 +46,39 @@ function ActivitiesStack({ navigation }) {
   );
 }
 
+function DietStack({ navigation }) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: commonStyles.headerBackgroundColor },
+        headerTintColor: commonStyles.headerTintColor,
+        headerTitleAlign: 'center',
+      }}
+    >
+      <Stack.Screen
+        name="Diet"
+        component={DietScreen}
+        options={{
+          title: 'Diet',
+          headerRight: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('AddDietEntry')}
+              style={{ paddingRight: 20 }}
+            >
+              <Text style={commonStyles.buttonText}>Add</Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="AddDietEntry"
+        component={AddDietEntryScreen}
+        options={{ title: 'Add A Diet Entry' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 export function MainTabs() {
   return (
     <Tab.Navigator
@@ -71,18 +105,13 @@ export function MainTabs() {
         component={ActivitiesStack}
         options={{ headerShown: false }} // Disable header at tab level; handled by stack
       />
-      {/* Apply consistent header styles to Diet and Settings */}
+      {/* Diet stack with consistent header styling */}
       <Tab.Screen
         name="Diet"
-        component={DietScreen}
-        options={{
-          title: 'Diet',
-          headerShown: true,
-          headerStyle: { backgroundColor: commonStyles.headerBackgroundColor }, // Same background color as Activities
-          headerTintColor: commonStyles.headerTintColor, // Same text color as Activities
-          headerTitleAlign: 'center', // Center align title
-        }}
+        component={DietStack} // Use the new DietStack for navigation
+        options={{ headerShown: false }} // Disable header at tab level; handled by stack
       />
+      {/* Settings with header styling */}
       <Tab.Screen
         name="Settings"
         component={SettingsScreen}

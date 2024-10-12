@@ -4,11 +4,13 @@ import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for the warnin
 import { commonStyles } from '../styles/commonStyles';
 
 // Function to check if the activity should display a warning
-const shouldDisplayWarning = (activityType, duration) => {
-  return (
-    (activityType === 'running' || activityType === 'weights') &&
-    duration > 60
-  );
+const shouldDisplayActivityWarning = (activityType, duration) => {
+  return (activityType === 'running' || activityType === 'weights') && duration > 60;
+};
+
+// Function to check if the diet entry should display a warning
+const shouldDisplayDietWarning = (calories) => {
+  return calories > 800;
 };
 
 const ItemsList = ({ entries, type }) => {
@@ -19,12 +21,16 @@ const ItemsList = ({ entries, type }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={commonStyles.card}>
-            {/* Display warning icon if the activity type is Running or Weights and duration is more than 60 minutes */}
-            {shouldDisplayWarning(item.activity, item.duration) && (
+            {/* Display warning icon based on type (exercise or diet) */}
+            {type === 'exercise' && shouldDisplayActivityWarning(item.activity, item.duration) && (
               <Ionicons name="warning" size={20} style={commonStyles.icon} />
             )}
+            {type === 'diet' && shouldDisplayDietWarning(item.calories) && (
+              <Ionicons name="warning" size={20} style={commonStyles.icon} />
+            )}
+            {/* Display description for diet or activity name for exercise */}
             <Text style={commonStyles.cardText}>
-              {type === 'exercise' ? item.activity : item.meal}
+              {type === 'exercise' ? item.activity : item.description}
             </Text>
             <Text style={commonStyles.cardDate}>{item.date}</Text>
             <Text style={commonStyles.cardValue}>
