@@ -3,6 +3,12 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { ThemeContext } from '../context/ThemeContext';
 import { commonStyles } from '../styles/commonStyles';
 
+// This screen allows the user to toggle between light and dark themes
+// The user can press a button to toggle the theme
+// The screen uses the commonStyles for consistent styling
+// The screen uses the ThemeContext to access the current theme and toggle function
+// The dynamic theme prop is applied to the background color and text color
+
 function SettingsScreen() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 

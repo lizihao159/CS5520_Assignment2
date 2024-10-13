@@ -6,6 +6,17 @@ import { DataContext } from '../context/DataContext'; // Import the context
 import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext
 import DatePicker from '../components/DatePicker'; // Import the reusable DatePicker component
 
+
+// Add the AddActivityScreen component
+// This screen allows the user to add a new activity entry
+// The user can select an activity, enter a duration, and select a date
+// The user must fill out all fields to save the entry
+// The user can cancel the entry and go back to the previous screen
+// The user can save the entry and go back to the previous screen
+// The user is shown an alert if any field is invalid
+// The user is shown a date picker to select the date
+
+
 const AddActivityScreen = ({ navigation }) => {
   const { addActivity } = useContext(DataContext); // Access the addActivity function from context
   const { theme } = useContext(ThemeContext); // Access the current theme
@@ -24,6 +35,8 @@ const AddActivityScreen = ({ navigation }) => {
     { label: 'Hiking', value: 'hiking' },
   ]);
 
+
+  // Function to validate the input fields and save the activity entry
   const validateAndSave = () => {
     const parsedDuration = parseInt(duration);
 
@@ -44,6 +57,11 @@ const AddActivityScreen = ({ navigation }) => {
 
     if (parsedDuration <= 0) {
       Alert.alert('Invalid Input', 'Duration must be a positive number.');
+      return;
+    }
+    // The duration input must be a whole number
+    if (duration.includes('.')) {
+      Alert.alert('Invalid Input', 'Duration must be a whole number.');
       return;
     }
 

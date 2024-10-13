@@ -1,5 +1,10 @@
 import React, { createContext, useState } from 'react';
 
+// This context will store the theme and provide a function to toggle between light and dark themes
+// so that all components can access the current theme
+// and toggle the theme when the user presses a button
+
+
 // Create a ThemeContext
 export const ThemeContext = createContext();
 

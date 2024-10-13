@@ -10,6 +10,9 @@ import AddActivityScreen from '../screens/AddActivityScreen';
 import AddDietEntryScreen from '../screens/AddDietEntryScreen'; // Import AddDietEntryScreen
 import { commonStyles } from '../styles/commonStyles';
 
+// Create a Stack for each tab
+// This will allow us to add a header button to add new activities and diet entries
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 

@@ -1,5 +1,10 @@
 import React, { createContext, useState } from 'react';
 
+
+// Create a DataContext
+// This context will store the activities and diet entries
+// and provide functions to add new activities and diet entries
+
 export const DataContext = createContext();
 
 export const DataProvider = ({ children }) => {

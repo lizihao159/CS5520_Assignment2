@@ -1,5 +1,10 @@
 import { StyleSheet, Platform } from 'react-native';
 
+// This is a resuable style object that can be used across multiple components
+// It is exported so that it can be imported in other files
+// The styles are defined using the StyleSheet.create method
+// The styles are then applied to the components using the style prop
+
 export const commonStyles = StyleSheet.create({
   container: {
     flex: 1,

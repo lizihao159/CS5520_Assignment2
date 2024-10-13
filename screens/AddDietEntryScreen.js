@@ -5,6 +5,15 @@ import { DataContext } from '../context/DataContext'; // Import the context
 import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext
 import DatePicker from '../components/DatePicker'; // Import the reusable DatePicker component
 
+// This screen allows the user to add a new diet entry
+// The user can enter a description, calories, and select a date
+// The user must fill out all fields to save the entry
+// The user can cancel the entry and go back to the previous screen
+// The user can save the entry and go back to the previous screen
+// The user is shown an alert if any field is invalid
+// The user is shown a date picker to select the date
+// The screen uses the commonStyles for consistent styling
+
 const AddDietEntryScreen = ({ navigation }) => {
   const { addDietEntry } = useContext(DataContext);
   const { theme } = useContext(ThemeContext); // Access the theme
@@ -19,6 +28,13 @@ const AddDietEntryScreen = ({ navigation }) => {
       Alert.alert('Invalid Input', 'Please fill all fields with valid data.');
       return;
     }
+
+    // The input of calories must be a whole number
+    if (!Number.isInteger(parsedCalories)) {
+      Alert.alert('Invalid Input', 'Calories must be a whole number.');
+      return;
+    }
+
 
     const newDietEntry = {
       description,

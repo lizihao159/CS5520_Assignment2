@@ -3,6 +3,10 @@ import { View, Text, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for the warning icon
 import { commonStyles } from '../styles/commonStyles';
 
+// This component displays a list of items (diet entries or activities)
+// and used by the DietScreen and ActivitiesScreen components
+// It also displays a warning icon if the entry or activity meets certain criteria
+
 // Function to check if the activity should display a warning
 const shouldDisplayActivityWarning = (activityType, duration) => {
   return (activityType === 'running' || activityType === 'weights') && duration > 60;
