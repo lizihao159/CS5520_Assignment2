@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export const commonStyles = StyleSheet.create({
   container: {
@@ -30,7 +30,7 @@ export const commonStyles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
-    fontFamily: 'Helvetica',
+    fontFamily: Platform.OS === 'ios' ? 'Helvetica' : 'sans-serif', // Cross-platform font
   },
   cardDate: {
     color: '#FFFFFF',
@@ -72,7 +72,7 @@ export const commonStyles = StyleSheet.create({
   tabBarInactiveTintColor: '#FFFFFF', // White for inactive tab icon
   tabBarLabel: {
     fontSize: 10,
-    fontFamily: 'Helvetica',
+    fontFamily: Platform.OS === 'ios' ? 'Helvetica' : 'sans-serif', // Cross-platform font
     fontWeight: 'bold',
     color: '#FFFFFF',
   },
