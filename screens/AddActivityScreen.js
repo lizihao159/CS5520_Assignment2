@@ -79,11 +79,10 @@ const AddActivityScreen = ({ navigation }) => {
       <Text style={[commonStyles.text, { color: theme.textColor }]}>Date *</Text>
       <DatePicker
         selectedDate={date}
-        setSelectedDate={(selectedDate) => {
-          setDate(selectedDate);
-          setIsDateSelected(true); // Mark the date as selected
-        }}
+        setSelectedDate={setDate}
+        onDateSelected={() => setIsDateSelected(true)} // Mark date as selected
       />
+
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>

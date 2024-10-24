@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { updateDocument, deleteDocument } from '../Firebase/firebaseHelper';
 import { commonStyles } from '../styles/commonStyles';
+import DatePicker from '../components/DatePicker';
 
 const EditActivityScreen = ({ route, navigation }) => {
   const { item } = route.params; // Get the passed activity item
 
   const [activity, setActivity] = useState(item.activity);
   const [duration, setDuration] = useState(String(item.duration));
+  const [date, setDate] = useState(new Date(item.date)); // Pre-populate with existing date
 
   const handleSave = async () => {
     if (!activity || !duration) {
@@ -19,6 +21,7 @@ const EditActivityScreen = ({ route, navigation }) => {
     await updateDocument('activities', item.id, {
       activity,
       duration: parseInt(duration),
+      date: date.toDateString(), // Save the updated date
     });
 
     Alert.alert('Success', 'Activity updated successfully.');
@@ -47,6 +50,12 @@ const EditActivityScreen = ({ route, navigation }) => {
         value={duration}
         onChangeText={setDuration}
       />
+
+      <Text style={commonStyles.text}>Date *</Text>
+      <DatePicker
+  selectedDate={date}
+  setSelectedDate={setDate}
+/>
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TouchableOpacity onPress={handleDelete}>

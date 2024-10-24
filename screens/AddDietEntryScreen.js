@@ -11,7 +11,7 @@ const AddDietEntryScreen = ({ navigation }) => {
   const [description, setDescription] = useState('');
   const [calories, setCalories] = useState('');
   const [date, setDate] = useState(null); // Start with null
-  const [isDateSelected, setIsDateSelected] = useState(false); // Track if date is selected
+  const [isDateSelected, setIsDateSelected] = useState(false); // Track date selection
 
   const validateAndSave = async () => {
     const parsedCalories = parseInt(calories);
@@ -63,10 +63,8 @@ const AddDietEntryScreen = ({ navigation }) => {
       <Text style={[commonStyles.text, { color: theme.textColor }]}>Date *</Text>
       <DatePicker
         selectedDate={date}
-        setSelectedDate={(selectedDate) => {
-          setDate(selectedDate);
-          setIsDateSelected(true); // Mark date as selected
-        }}
+        setSelectedDate={setDate}
+        onDateSelected={() => setIsDateSelected(true)} // Mark date as selected
       />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>

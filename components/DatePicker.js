@@ -1,40 +1,45 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, TouchableOpacity, Text, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { commonStyles } from '../styles/commonStyles';
 
-const DatePicker = ({ selectedDate, setSelectedDate }) => {
+const DatePicker = ({ selectedDate, setSelectedDate, onDateSelected }) => {
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [isDateSelected, setIsDateSelected] = useState(false); // Track if a date is selected
 
   const toggleDatePicker = () => {
-    setShowDatePicker(prevState => !prevState);
+    setShowDatePicker((prev) => !prev);
 
-    if (!isDateSelected) {
-      const today = new Date(); // Automatically select today's date
+    // Automatically select today's date if no date was previously selected
+    if (!selectedDate) {
+      const today = new Date();
       setSelectedDate(today);
-      setIsDateSelected(true); // Mark date as selected
+
+      if (onDateSelected) {
+        onDateSelected(); // Call the callback if it's provided
+      }
     }
   };
 
-  const handleDateChange = (event, date) => {
-    if (event.type === 'set') {
-      const selected = date || new Date(); // Default to today if no date chosen
-      setSelectedDate(selected);
-      setIsDateSelected(true);
+  const onChange = (event, date) => {
+    setShowDatePicker(false);
+
+    if (date || event.type === 'set') {
+      setSelectedDate(date || new Date());
+
+      if (onDateSelected) {
+        onDateSelected(); // Call the callback if provided
+      }
     }
-    setShowDatePicker(false); // Close picker when user taps out or selects a date
+  };
+
+  const displayDate = () => {
+    return selectedDate ? selectedDate.toDateString() : 'Tap to select a date';
   };
 
   return (
-    <View>
-      <TouchableOpacity
-        style={[commonStyles.input, { marginBottom: 20 }]} // Use commonStyles for consistency
-        onPress={toggleDatePicker} // Toggle picker on tap
-      >
-        <Text style={{ color: selectedDate ? 'black' : 'gray' }}>
-          {isDateSelected ? selectedDate.toDateString() : 'Tap to select a date'}
-        </Text>
+    <View style={{ marginBottom: 20 }}>
+      <TouchableOpacity onPress={toggleDatePicker} style={commonStyles.input}>
+        <Text style={{ color: 'black' }}>{displayDate()}</Text>
       </TouchableOpacity>
 
       {showDatePicker && (
@@ -42,7 +47,7 @@ const DatePicker = ({ selectedDate, setSelectedDate }) => {
           value={selectedDate || new Date()}
           mode="date"
           display={Platform.OS === 'ios' ? 'inline' : 'default'}
-          onChange={handleDateChange}
+          onChange={onChange}
         />
       )}
     </View>
