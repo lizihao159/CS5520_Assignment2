@@ -2,27 +2,17 @@ import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Alert, TouchableOpacity } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { commonStyles } from '../styles/commonStyles';
-import { DataContext } from '../context/DataContext'; // Import the context
-import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext
-import DatePicker from '../components/DatePicker'; // Import the reusable DatePicker component
-
-
-// Add the AddActivityScreen component
-// This screen allows the user to add a new activity entry
-// The user can select an activity, enter a duration, and select a date
-// The user must fill out all fields to save the entry
-// The user can cancel the entry and go back to the previous screen
-// The user can save the entry and go back to the previous screen
-// The user is shown an alert if any field is invalid
-// The user is shown a date picker to select the date
-
+import { DataContext } from '../context/DataContext';
+import { ThemeContext } from '../context/ThemeContext';
+import DatePicker from '../components/DatePicker';
 
 const AddActivityScreen = ({ navigation }) => {
-  const { addActivity } = useContext(DataContext); // Access the addActivity function from context
-  const { theme } = useContext(ThemeContext); // Access the current theme
+  const { addActivity } = useContext(DataContext);
+  const { theme } = useContext(ThemeContext);
   const [activity, setActivity] = useState(null);
   const [duration, setDuration] = useState('');
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null); // Start with null to ensure user selects it
+  const [isDateSelected, setIsDateSelected] = useState(false); // Track if the date is selected
 
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
@@ -35,9 +25,7 @@ const AddActivityScreen = ({ navigation }) => {
     { label: 'Hiking', value: 'hiking' },
   ]);
 
-
-  // Function to validate the input fields and save the activity entry
-  const validateAndSave = () => {
+  const validateAndSave = async () => {
     const parsedDuration = parseInt(duration);
 
     if (!activity) {
@@ -45,23 +33,13 @@ const AddActivityScreen = ({ navigation }) => {
       return;
     }
 
-    if (!duration) {
-      Alert.alert('Invalid Input', 'Duration cannot be empty.');
+    if (!duration || isNaN(parsedDuration) || parsedDuration <= 0) {
+      Alert.alert('Invalid Input', 'Please enter a valid duration.');
       return;
     }
 
-    if (isNaN(parsedDuration)) {
-      Alert.alert('Invalid Input', 'Duration must be a number.');
-      return;
-    }
-
-    if (parsedDuration <= 0) {
-      Alert.alert('Invalid Input', 'Duration must be a positive number.');
-      return;
-    }
-    // The duration input must be a whole number
-    if (duration.includes('.')) {
-      Alert.alert('Invalid Input', 'Duration must be a whole number.');
+    if (!isDateSelected) {
+      Alert.alert('Invalid Input', 'Please choose a date.');
       return;
     }
 
@@ -71,7 +49,7 @@ const AddActivityScreen = ({ navigation }) => {
       date: date.toDateString(),
     };
 
-    addActivity(newActivity);
+    await addActivity(newActivity);
     navigation.goBack();
   };
 
@@ -99,7 +77,13 @@ const AddActivityScreen = ({ navigation }) => {
       />
 
       <Text style={[commonStyles.text, { color: theme.textColor }]}>Date *</Text>
-      <DatePicker selectedDate={date} setSelectedDate={setDate} />
+      <DatePicker
+        selectedDate={date}
+        setSelectedDate={(selectedDate) => {
+          setDate(selectedDate);
+          setIsDateSelected(true); // Mark the date as selected
+        }}
+      />
 
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
