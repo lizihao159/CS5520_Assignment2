@@ -1,3 +1,4 @@
+// MainTabs.js
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -7,7 +8,9 @@ import ActivitiesScreen from '../screens/ActivitiesScreen';
 import DietScreen from '../screens/DietScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import AddActivityScreen from '../screens/AddActivityScreen';
-import AddDietEntryScreen from '../screens/AddDietEntryScreen'; 
+import AddDietEntryScreen from '../screens/AddDietEntryScreen';
+import EditActivityScreen from '../screens/EditActivityScreen';
+import EditDietEntryScreen from '../screens/EditDietEntryScreen';
 import { commonStyles } from '../styles/commonStyles';
 
 const Tab = createBottomTabNavigator();
@@ -23,7 +26,7 @@ function ActivitiesStack({ navigation }) {
       }}
     >
       <Stack.Screen
-        name="activitiesStack"
+        name="Activities"
         component={ActivitiesScreen}
         options={{
           title: 'Activities',
@@ -43,6 +46,11 @@ function ActivitiesStack({ navigation }) {
         component={AddActivityScreen}
         options={{ title: 'Add An Activity' }}
       />
+      <Stack.Screen
+        name="EditActivity"
+        component={EditActivityScreen}
+        options={{ title: 'Edit Activity' }}
+      />
     </Stack.Navigator>
   );
 }
@@ -57,7 +65,7 @@ function DietStack({ navigation }) {
       }}
     >
       <Stack.Screen
-        name="dietStack"
+        name="Diet"
         component={DietScreen}
         options={{
           title: 'Diet',
@@ -76,6 +84,11 @@ function DietStack({ navigation }) {
         name="AddDietEntry"
         component={AddDietEntryScreen}
         options={{ title: 'Add A Diet Entry' }}
+      />
+      <Stack.Screen
+        name="EditDietEntry"
+        component={EditDietEntryScreen}
+        options={{ title: 'Edit Diet Entry' }}
       />
     </Stack.Navigator>
   );

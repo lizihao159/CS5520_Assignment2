@@ -1,7 +1,7 @@
 // DataContext.js
 import React, { createContext, useEffect, useState } from 'react';
 import { collection, onSnapshot, addDoc } from 'firebase/firestore';
-import { database } from '../Firebase/firebaseSetup'; // Import Firestore setup
+import { database } from '../Firebase/firebaseSetup';
 
 export const DataContext = createContext();
 
@@ -23,7 +23,7 @@ export const DataProvider = ({ children }) => {
     );
 
     const unsubscribeDietEntries = onSnapshot(
-      collection(database, 'diet'),
+      collection(database, 'dietEntries'), // Fixed collection name
       (snapshot) => {
         const dietData = snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -33,21 +33,18 @@ export const DataProvider = ({ children }) => {
       }
     );
 
-    // Clean up listeners
     return () => {
       unsubscribeActivities();
       unsubscribeDietEntries();
     };
   }, []);
 
-  // Add new activity to Firestore
   const addActivity = async (newActivity) => {
     await addDoc(collection(database, 'activities'), newActivity);
   };
 
-  // Add new diet entry to Firestore
   const addDietEntry = async (newDietEntry) => {
-    await addDoc(collection(database, 'diet'), newDietEntry);
+    await addDoc(collection(database, 'dietEntries'), newDietEntry); // Fixed collection name
   };
 
   return (
