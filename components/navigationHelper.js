@@ -2,16 +2,13 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import ActivitiesScreen from '../screens/ActivitiesScreen';
 import DietScreen from '../screens/DietScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import AddActivityScreen from '../screens/AddActivityScreen';
-import AddDietEntryScreen from '../screens/AddDietEntryScreen'; // Import AddDietEntryScreen
+import AddDietEntryScreen from '../screens/AddDietEntryScreen'; 
 import { commonStyles } from '../styles/commonStyles';
-
-// Create a Stack for each tab
-// This will allow us to add a header button to add new activities and diet entries
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,18 +22,18 @@ function ActivitiesStack({ navigation }) {
         headerTitleAlign: 'center',
       }}
     >
-      {/* Use a different name for the Stack.Screen but keep "Activities" in title */}
       <Stack.Screen
-        name="activitiesStack"  // Use a unique name here
+        name="activitiesStack"
         component={ActivitiesScreen}
         options={{
-          title: 'Activities', // The header title to display
+          title: 'Activities',
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('AddActivity')}
-              style={{ paddingRight: 20 }}
+              style={{ paddingRight: 20, flexDirection: 'row' }}
             >
-              <Text style={commonStyles.buttonText}>Add</Text>
+              <Ionicons name="add-circle-outline" size={24} color={commonStyles.headerTintColor} />
+              <Ionicons name="walk-outline" size={24} color={commonStyles.headerTintColor} style={{ marginLeft: 5 }} />
             </TouchableOpacity>
           ),
         }}
@@ -59,18 +56,18 @@ function DietStack({ navigation }) {
         headerTitleAlign: 'center',
       }}
     >
-      {/* Use a different name for the Stack.Screen but keep "Diet" in title */}
       <Stack.Screen
-        name="dietStack"  // Use a unique name here
+        name="dietStack"
         component={DietScreen}
         options={{
-          title: 'Diet', // The header title to display
+          title: 'Diet',
           headerRight: () => (
             <TouchableOpacity
               onPress={() => navigation.navigate('AddDietEntry')}
-              style={{ paddingRight: 20 }}
+              style={{ paddingRight: 20, flexDirection: 'row' }}
             >
-              <Text style={commonStyles.buttonText}>Add</Text>
+              <Ionicons name="add-circle-outline" size={24} color={commonStyles.headerTintColor} />
+              <Ionicons name="fast-food-outline" size={24} color={commonStyles.headerTintColor} style={{ marginLeft: 5 }} />
             </TouchableOpacity>
           ),
         }}
@@ -104,16 +101,15 @@ export function MainTabs() {
         tabBarStyle: commonStyles.tabBar,
       })}
     >
-      {/* Rename tab screen to avoid conflicts */}
       <Tab.Screen
-        name="activitiesTab"  // Use a unique name for the tab screen
+        name="activitiesTab"
         component={ActivitiesStack}
-        options={{ headerShown: false, title: 'Activities' }} // This will be the tab title
+        options={{ headerShown: false, title: 'Activities' }}
       />
       <Tab.Screen
-        name="dietTab"  // Use a unique name for the tab screen
+        name="dietTab"
         component={DietStack}
-        options={{ headerShown: false, title: 'Diet' }} // This will be the tab title
+        options={{ headerShown: false, title: 'Diet' }}
       />
       <Tab.Screen
         name="Settings"
@@ -121,9 +117,9 @@ export function MainTabs() {
         options={{
           title: 'Settings',
           headerShown: true,
-          headerStyle: { backgroundColor: commonStyles.headerBackgroundColor }, // Same background color as Activities
-          headerTintColor: commonStyles.headerTintColor, // Same text color as Activities
-          headerTitleAlign: 'center', // Center align title
+          headerStyle: { backgroundColor: commonStyles.headerBackgroundColor },
+          headerTintColor: commonStyles.headerTintColor,
+          headerTitleAlign: 'center',
         }}
       />
     </Tab.Navigator>
