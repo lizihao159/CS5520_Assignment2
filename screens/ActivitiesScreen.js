@@ -1,21 +1,33 @@
-import React, { useContext } from 'react';
-import { View } from 'react-native';
-import ItemsList from '../components/ItemsList';
-import { DataContext } from '../context/DataContext';
+import React, { useEffect, useState, useContext } from 'react';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { commonStyles } from '../styles/commonStyles';
+import { listenToCollection } from '../Firebase/firebaseHelper'; // Import helper
 import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext
 
-// This screen displays a list of activities
-// The user can see the activities they have added
+const ActivitiesScreen = () => {
+  const [activities, setActivities] = useState([]);
+  const { theme } = useContext(ThemeContext);
 
-function ActivitiesScreen() {
-  const { activities } = useContext(DataContext);
-  const { theme } = useContext(ThemeContext); // Access the current theme
+  useEffect(() => {
+    const unsubscribe = listenToCollection('activities', setActivities);
+    return () => unsubscribe(); // Clean up the listener
+  }, []);
 
   return (
-    <View style={{ backgroundColor: theme.backgroundColor, flex: 1 }}>
-      <ItemsList entries={activities} type="exercise" />
+    <View style={[commonStyles.container, { backgroundColor: theme.backgroundColor }]}>
+      <FlatList
+        data={activities}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={commonStyles.card}>
+            <Text style={commonStyles.cardText}>{item.activity}</Text>
+            <Text style={commonStyles.cardValue}>{item.duration} min</Text>
+            <Text style={commonStyles.cardDate}>{item.date}</Text>
+          </View>
+        )}
+      />
     </View>
   );
-}
+};
 
 export default ActivitiesScreen;
