@@ -1,15 +1,16 @@
-// firebaseSetup.js
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import Constants from 'expo-constants';
 
+// Use a fallback for development environment
 const firebaseConfig = {
-    apiKey: "AIzaSyAtvjkVpClENvVBVUVviYTTfsvrEejDeE0",
-    authDomain: "cs5520-a2-part2.firebaseapp.com",
-    projectId: "cs5520-a2-part2",
-    storageBucket: "cs5520-a2-part2.appspot.com",
-    messagingSenderId: "529619106466",
-    appId: "1:529619106466:web:cdcd1a43551d0a161735fb"
-  };
+  apiKey: Constants.expoConfig?.extra?.firebaseApiKey,
+  authDomain: Constants.expoConfig?.extra?.firebaseAuthDomain,
+  projectId: Constants.expoConfig?.extra?.firebaseProjectId,
+  storageBucket: Constants.expoConfig?.extra?.firebaseStorageBucket,
+  messagingSenderId: Constants.expoConfig?.extra?.firebaseMessagingSenderId,
+  appId: Constants.expoConfig?.extra?.firebaseAppId,
+};
 
 const app = initializeApp(firebaseConfig);
 export const database = getFirestore(app);
