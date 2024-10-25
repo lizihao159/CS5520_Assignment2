@@ -1,18 +1,13 @@
-// ItemsList.js
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { commonStyles } from '../styles/commonStyles';
 
-// Function to check if the activity should display a warning
-const shouldDisplayActivityWarning = (activityType, duration) => {
-  return (activityType === 'running' || activityType === 'weights') && duration > 60;
-};
+// Function to determine if an activity should show a warning icon
+const shouldDisplayActivityWarning = (item) => item.isSpecial;
 
-// Function to check if the diet entry should display a warning
-const shouldDisplayDietWarning = (calories) => {
-  return calories > 800;
-};
+// Function to determine if a diet entry should show a warning icon
+const shouldDisplayDietWarning = (item) => item.isSpecial;
 
 const ItemsList = ({ entries, type, navigation }) => {
   const handlePress = (item) => {
@@ -23,8 +18,6 @@ const ItemsList = ({ entries, type, navigation }) => {
     }
 
     const screenName = type === 'exercise' ? 'EditActivity' : 'EditDietEntry';
-    console.log(`Navigating to ${screenName} with item:`, item);
-
     navigation.navigate(screenName, { item });
   };
 
@@ -40,11 +33,10 @@ const ItemsList = ({ entries, type, navigation }) => {
                 {type === 'exercise' ? item.activity : item.description}
               </Text>
 
-              {type === 'exercise' &&
-                shouldDisplayActivityWarning(item.activity, item.duration) && (
-                  <Ionicons name="warning" size={20} color="orange" style={commonStyles.icon} />
-                )}
-              {type === 'diet' && shouldDisplayDietWarning(item.calories) && (
+              {type === 'exercise' && shouldDisplayActivityWarning(item) && (
+                <Ionicons name="warning" size={20} color="orange" style={commonStyles.icon} />
+              )}
+              {type === 'diet' && shouldDisplayDietWarning(item) && (
                 <Ionicons name="warning" size={20} color="orange" style={commonStyles.icon} />
               )}
 

@@ -9,11 +9,12 @@ import DatePicker from '../components/DatePicker';
 const AddActivityScreen = ({ navigation }) => {
   const { addActivity } = useContext(DataContext);
   const { theme } = useContext(ThemeContext);
+  
   const [activity, setActivity] = useState(null);
   const [duration, setDuration] = useState('');
-  const [date, setDate] = useState(null); // Start with null to ensure user selects it
+  const [date, setDate] = useState(null); // Start with null to ensure user selects a date
   const [isDateSelected, setIsDateSelected] = useState(false); // Track if the date is selected
-
+  
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     { label: 'Walking', value: 'walking' },
@@ -43,10 +44,14 @@ const AddActivityScreen = ({ navigation }) => {
       return;
     }
 
+    // Determine if the activity is special based on the type and duration
+    const isSpecial = (activity === 'running' || activity === 'weights') && parsedDuration > 60;
+
     const newActivity = {
       activity,
       duration: parsedDuration,
       date: date.toDateString(),
+      isSpecial, // Save special status
     };
 
     await addActivity(newActivity);
@@ -79,12 +84,13 @@ const AddActivityScreen = ({ navigation }) => {
       <Text style={[commonStyles.text, { color: theme.textColor }]}>Date *</Text>
       <DatePicker
         selectedDate={date}
-        setSelectedDate={setDate}
-        onDateSelected={() => setIsDateSelected(true)} // Mark date as selected
+        setSelectedDate={(selectedDate) => {
+          setDate(selectedDate);
+          setIsDateSelected(true); // Mark the date as selected
+        }}
       />
 
-
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={[commonStyles.buttonText, { color: theme.textColor }]}>Cancel</Text>
         </TouchableOpacity>

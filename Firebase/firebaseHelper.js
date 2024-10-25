@@ -10,6 +10,16 @@ import {
 } from 'firebase/firestore';
 import { database } from './firebaseSetup';
 
+// Function to check if an activity is special
+export const isActivitySpecial = (activity, duration) => {
+  return (activity === 'running' || activity === 'weights') && duration > 60;
+};
+
+// Function to check if a diet entry is special
+export const isDietEntrySpecial = (calories) => {
+  return calories > 800;
+};
+
 // Function to listen for real-time updates
 export function listenToCollection(collectionName, callback) {
   const q = collection(database, collectionName);

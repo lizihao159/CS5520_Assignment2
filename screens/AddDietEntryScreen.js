@@ -10,8 +10,8 @@ const AddDietEntryScreen = ({ navigation }) => {
   const { theme } = useContext(ThemeContext);
   const [description, setDescription] = useState('');
   const [calories, setCalories] = useState('');
-  const [date, setDate] = useState(null); // Start with null
-  const [isDateSelected, setIsDateSelected] = useState(false); // Track date selection
+  const [date, setDate] = useState(null);
+  const [isDateSelected, setIsDateSelected] = useState(false);
 
   const validateAndSave = async () => {
     const parsedCalories = parseInt(calories);
@@ -31,10 +31,14 @@ const AddDietEntryScreen = ({ navigation }) => {
       return;
     }
 
+    // Automatically mark the diet entry as special if calories > 800
+    const isSpecial = parsedCalories > 800;
+
     const newDietEntry = {
       description,
       calories: parsedCalories,
       date: date.toDateString(),
+      isSpecial, // Save special status
     };
 
     await addDietEntry(newDietEntry);
@@ -63,11 +67,13 @@ const AddDietEntryScreen = ({ navigation }) => {
       <Text style={[commonStyles.text, { color: theme.textColor }]}>Date *</Text>
       <DatePicker
         selectedDate={date}
-        setSelectedDate={setDate}
-        onDateSelected={() => setIsDateSelected(true)} // Mark date as selected
+        setSelectedDate={(selectedDate) => {
+          setDate(selectedDate);
+          setIsDateSelected(true);
+        }}
       />
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={[commonStyles.buttonText, { color: theme.textColor }]}>Cancel</Text>
         </TouchableOpacity>

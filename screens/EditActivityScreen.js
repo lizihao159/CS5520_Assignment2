@@ -4,69 +4,53 @@ import { Ionicons } from '@expo/vector-icons';
 import { updateDocument, deleteDocument } from '../Firebase/firebaseHelper';
 import { commonStyles } from '../styles/commonStyles';
 import DatePicker from '../components/DatePicker';
+import CheckBox from 'expo-checkbox'; // Correct import
 
 const EditActivityScreen = ({ route, navigation }) => {
   const { item } = route.params;
 
+  // Initialize state with existing item values
   const [activity, setActivity] = useState(item.activity);
   const [duration, setDuration] = useState(String(item.duration));
   const [date, setDate] = useState(new Date(item.date));
+  const [isSpecial, setIsSpecial] = useState(item.isSpecial); // Reflect current special status
 
   const handleSave = async () => {
-    Alert.alert(
-      'Confirm Save',
-      'Are you sure you want to save the changes?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Save',
-          onPress: async () => {
-            await updateDocument('activities', item.id, {
-              activity,
-              duration: parseInt(duration),
-              date: date.toDateString(),
-            });
-            Alert.alert('Success', 'Activity updated successfully.');
-            navigation.goBack();
-          },
-        },
-      ]
-    );
+    try {
+      await updateDocument('activities', item.id, {
+        activity,
+        duration: parseInt(duration),
+        date: date.toDateString(),
+        isSpecial, // Save the user’s decision on special status
+      });
+
+      Alert.alert('Success', 'Activity updated successfully.');
+      navigation.goBack();
+    } catch (error) {
+      console.error('Error saving activity:', error);
+      Alert.alert('Error', 'Failed to save changes.');
+    }
   };
 
   const handleDelete = async () => {
-    Alert.alert(
-      'Confirm Delete',
-      'Are you sure you want to delete this activity?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          onPress: async () => {
+    Alert.alert('Confirm Delete', 'Are you sure you want to delete this activity?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        onPress: async () => {
+          try {
             await deleteDocument('activities', item.id);
             Alert.alert('Deleted', 'Activity deleted successfully.');
             navigation.goBack();
-          },
+          } catch (error) {
+            console.error('Error deleting activity:', error);
+            Alert.alert('Error', 'Failed to delete the activity.');
+          }
         },
-      ]
-    );
+      },
+    ]);
   };
 
-  const handleCancel = () => {
-    Alert.alert(
-      'Confirm Cancel',
-      'Are you sure you want to discard the changes?',
-      [
-        { text: 'No', style: 'cancel' },
-        { text: 'Yes', onPress: () => navigation.goBack() },
-      ]
-    );
-  };
-
-  // Move the delete button to the header right corner
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -97,11 +81,15 @@ const EditActivityScreen = ({ route, navigation }) => {
       <Text style={commonStyles.text}>Date *</Text>
       <DatePicker selectedDate={date} setSelectedDate={setDate} />
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <TouchableOpacity onPress={handleCancel}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+        <CheckBox value={isSpecial} onValueChange={setIsSpecial} />
+        <Text style={commonStyles.text}>Mark as Special</Text>
+      </View>
+
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={commonStyles.buttonText}>Cancel</Text>
         </TouchableOpacity>
-
         <TouchableOpacity onPress={handleSave}>
           <Text style={commonStyles.buttonText}>Save</Text>
         </TouchableOpacity>
