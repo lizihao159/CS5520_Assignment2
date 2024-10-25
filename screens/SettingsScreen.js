@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { ThemeContext } from '../context/ThemeContext';
 import { commonStyles } from '../styles/commonStyles';
 
 // This screen allows the user to toggle between light and dark themes
-// The user can press a button to toggle the theme
+// Uses Pressable for the button to enhance UX and responsiveness
 // The screen uses the commonStyles for consistent styling
-// The screen uses the ThemeContext to access the current theme and toggle function
 // The dynamic theme prop is applied to the background color and text color
 
 function SettingsScreen() {
@@ -16,9 +15,17 @@ function SettingsScreen() {
     <View style={[commonStyles.container, { backgroundColor: theme.backgroundColor }]}>
       {/* Centering the toggle button */}
       <View style={styles.centered}>
-        <TouchableOpacity onPress={toggleTheme} style={styles.button}>
-          <Text style={[commonStyles.buttonText, { color: theme.textColor }]}>Toggle Theme</Text>
-        </TouchableOpacity>
+        <Pressable
+          onPress={toggleTheme}
+          style={({ pressed }) => [
+            styles.button,
+            { opacity: pressed ? 0.8 : 1 }, // Visual feedback on press
+          ]}
+        >
+          <Text style={[commonStyles.buttonText, { color: theme.textColor }]}>
+            Toggle Theme
+          </Text>
+        </Pressable>
       </View>
     </View>
   );
