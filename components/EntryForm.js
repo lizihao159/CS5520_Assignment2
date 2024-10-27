@@ -5,6 +5,8 @@ import CheckBox from 'expo-checkbox'; // Only for edit screens
 import DatePicker from './DatePicker'; // Custom DatePicker
 import { commonStyles } from '../styles/commonStyles';
 
+// Form for adding or editing diet/activity entries
+// and can be reused in multiple screens
 const EntryForm = ({
   type,
   values,
@@ -30,10 +32,12 @@ const EntryForm = ({
   const validateInputs = () => {
     if (type === 'diet') {
       const parsedCalories = parseInt(calories);
+      // Check if any of the required fields are empty or invalid
       if (!description) {
         Alert.alert('Invalid Input', 'Please enter a description.');
         return false;
       }
+      // Check if calories is a valid number greater than 0
       if (!calories || isNaN(parsedCalories) || parsedCalories <= 0) {
         Alert.alert(
           'Invalid Input',
@@ -41,12 +45,14 @@ const EntryForm = ({
         );
         return false;
       }
+      // Check if activity is selected
     } else if (type === 'activity') {
       const parsedDuration = parseInt(duration);
       if (!activity) {
         Alert.alert('Invalid Input', 'Please select an activity.');
         return false;
       }
+      // Check if duration is a valid number greater than 0
       if (!duration || isNaN(parsedDuration) || parsedDuration <= 0) {
         Alert.alert(
           'Invalid Input',
@@ -55,6 +61,7 @@ const EntryForm = ({
         return false;
       }
     }
+    // Check if date is selected
     if (!date) {
       Alert.alert('Invalid Input', 'Please select a date.');
       return false;
@@ -69,6 +76,7 @@ const EntryForm = ({
     }
   };
 
+  // Set the header right button to delete the entry
   return (
     <View style={commonStyles.container}>
       {type === 'diet' ? (
@@ -119,7 +127,6 @@ const EntryForm = ({
         selectedDate={date}
         setSelectedDate={(selectedDate) => onValueChange('date', selectedDate)}
       />
-
       {isEdit && (
         <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
           <CheckBox

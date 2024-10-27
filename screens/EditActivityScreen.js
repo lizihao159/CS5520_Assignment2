@@ -12,6 +12,7 @@ const EditActivityScreen = ({ route, navigation }) => {
   const [date, setDate] = useState(new Date(item.date));
   const [isSpecial, setIsSpecial] = useState(item.isSpecial);
 
+  // Save changes to the activity
   const confirmSave = () => {
     Alert.alert(
       'Confirm Save',
@@ -23,6 +24,7 @@ const EditActivityScreen = ({ route, navigation }) => {
     );
   };
 
+  // Update the activity in the database
   const handleSave = async () => {
     try {
       await updateDocument('activities', item.id, {
@@ -38,6 +40,8 @@ const EditActivityScreen = ({ route, navigation }) => {
     }
   };
 
+
+  // Discard changes and go back
   const confirmCancel = () => {
     Alert.alert(
       'Discard Changes',
@@ -49,6 +53,7 @@ const EditActivityScreen = ({ route, navigation }) => {
     );
   };
 
+  // Delete the activity
   const handleDelete = async () => {
     Alert.alert(
       'Confirm Delete',
@@ -71,6 +76,7 @@ const EditActivityScreen = ({ route, navigation }) => {
     );
   };
 
+  // Set the header right button to delete the activity
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -81,6 +87,7 @@ const EditActivityScreen = ({ route, navigation }) => {
     });
   }, [navigation]);
 
+  // Render the entry form with the activity details
   return (
     <EntryForm
       type="activity"

@@ -4,6 +4,7 @@ import { updateDocument, deleteDocument } from '../Firebase/firebaseHelper';
 import { Alert, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+// This screen allows the user to edit a diet entry
 const EditDietEntryScreen = ({ route, navigation }) => {
   const { item } = route.params;
 
@@ -12,6 +13,7 @@ const EditDietEntryScreen = ({ route, navigation }) => {
   const [date, setDate] = useState(new Date(item.date));
   const [isSpecial, setIsSpecial] = useState(item.isSpecial || item.calories > 800);
 
+  // Save changes to the diet entry
   const confirmSave = () => {
     Alert.alert(
       'Confirm Save',
@@ -23,6 +25,7 @@ const EditDietEntryScreen = ({ route, navigation }) => {
     );
   };
 
+  // Update the diet entry in the database
   const handleSave = async () => {
     try {
       await updateDocument('dietEntries', item.id, {
@@ -39,6 +42,7 @@ const EditDietEntryScreen = ({ route, navigation }) => {
     }
   };
 
+  // Discard changes and go back
   const confirmCancel = () => {
     Alert.alert(
       'Discard Changes',
@@ -50,6 +54,7 @@ const EditDietEntryScreen = ({ route, navigation }) => {
     );
   };
 
+  // Delete the diet entry
   const handleDelete = async () => {
     Alert.alert(
       'Confirm Delete',
@@ -73,6 +78,7 @@ const EditDietEntryScreen = ({ route, navigation }) => {
     );
   };
 
+  // Add a delete button to the header
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -83,6 +89,8 @@ const EditDietEntryScreen = ({ route, navigation }) => {
     });
   }, [navigation]);
 
+  // Display the diet entry form
+  // Pass the diet entry details to the EntryForm component
   return (
     <EntryForm
       type="diet"

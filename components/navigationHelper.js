@@ -16,6 +16,8 @@ import { commonStyles } from '../styles/commonStyles';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+// Stack Navigator for Activities
+// This component is used to navigate between the Activities, AddActivity, and EditActivity screens
 function ActivitiesStack({ navigation }) {
   return (
     <Stack.Navigator
@@ -54,7 +56,7 @@ function ActivitiesStack({ navigation }) {
     </Stack.Navigator>
   );
 }
-
+// Stack Navigator for Diet
 function DietStack({ navigation }) {
   return (
     <Stack.Navigator
@@ -94,6 +96,7 @@ function DietStack({ navigation }) {
   );
 }
 
+// Main Tab Navigator
 export function MainTabs() {
   return (
     <Tab.Navigator

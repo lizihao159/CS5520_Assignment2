@@ -32,10 +32,12 @@ const DatePicker = ({ selectedDate, setSelectedDate, onDateSelected }) => {
     }
   };
 
+  // Display the selected date in a user-friendly format
   const displayDate = () => {
     return selectedDate ? selectedDate.toDateString() : 'Tap to select a date';
   };
 
+  // Update the date when the selectedDate prop changes
   return (
     <View style={{ marginBottom: 20 }}>
       <TouchableOpacity onPress={toggleDatePicker} style={commonStyles.input}>
